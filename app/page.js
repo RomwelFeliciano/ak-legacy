@@ -69,23 +69,48 @@ export default function Home() {
   const [promoOne, setPromoOne] = useState([]);
   const [promoTwo, setPromoTwo] = useState([]);
 
-  function addToCart(item) {
-    const existingIndex = promoOne.findIndex(
-      (existingItem) => existingItem.id === item.id
-    );
+  const [cartItem, setCartItem] = useState([]);
 
-    if (existingIndex !== -1) {
-      // Item exists, remove it from the cart
-      const updatedCart = [...promoOne];
-      updatedCart.splice(existingIndex, 1);
-      setPromoOne(updatedCart);
-    } else {
-      // Item doesn't exist, add it to the cart
-      setPromoOne([...promoOne, item]);
+  useEffect(() => {
+    setCartItem([...promoOne, ...promoTwo]);
+  }, [promoOne, promoTwo]); // Update combinedArray whenever arrayOne or arrayTwo changes
+
+  function addToCart(item, promoId) {
+    if (promoId === 1) {
+      const existingIndex = promoOne.findIndex(
+        (existingItem) => existingItem.item === item.item
+      );
+
+      if (existingIndex !== -1) {
+        // Item exists, remove it from the cart
+        const updatedCart = [...promoOne];
+        updatedCart.splice(existingIndex, 1);
+        setPromoOne(updatedCart);
+      } else {
+        // Item doesn't exist, add it to the cart
+        setPromoOne([...promoOne, item]);
+      }
+    } else if (promoId === 2) {
+      const existingIndex = promoTwo.findIndex(
+        (existingItem) => existingItem.item === item.item
+      );
+      // Do the same for promoTwo if needed
+      if (existingIndex !== -1) {
+        // Item exists, remove it from the cart
+        const updatedCart = [...promoTwo];
+        updatedCart.splice(existingIndex, 1);
+        setPromoTwo(updatedCart);
+      } else {
+        // Item doesn't exist, add it to the cart
+        setPromoTwo([...promoTwo, item]);
+      }
+      // You can implement a similar logic for promoTwo using setPromoTwo
     }
   }
 
-  console.log(promoOne);
+  // console.log(promoOne);
+  // console.log(promoTwo);
+  console.log(cartItem, "asd");
 
   return (
     <main className="w-full grid grid-cols-12 min-h-screen">
