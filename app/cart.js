@@ -1,10 +1,10 @@
 import React from "react";
 
-export default function Cart({ cartItem }) {
+export default function Cart({ cartItem, removeAllToCart }) {
   return (
-    <div>
-      <h1>
-        My Cart
+    <div className="flex flex-col justify-between h-full">
+      <h1>My Cart</h1>
+      <div className="flex flex-col justify-between h-full">
         <ul className="flex flex-col gap-3 pt-3">
           {cartItem.map((item) => (
             <li
@@ -18,7 +18,18 @@ export default function Cart({ cartItem }) {
             </li>
           ))}
         </ul>
-      </h1>
+        <div className="flex items-center justify-evenly gap-2">
+          <button
+            className="bg-red-600 hover:bg-red-800 text-white px-2 py-1 rounded-lg"
+            onClick={removeAllToCart}
+          >
+            Delete All
+          </button>
+          <button className="bg-green-600 hover:bg-green-800 text-white px-2 py-1 rounded-lg">
+            Confirm All
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

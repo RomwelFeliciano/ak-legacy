@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function PromoItem({ promos, addToCart }) {
+export default function PromoItem({ promos, addToCart, cartItem }) {
   return (
     <>
       {promos.map((promo) => (
@@ -33,7 +33,9 @@ export default function PromoItem({ promos, addToCart }) {
                 .map((item) => (
                   <button
                     className={`w-64 py-2 rounded-lg cursor-pointer ${
-                      item.inCart === true
+                      cartItem.some(
+                        (cItem) => cItem.item === item.item && cItem.inCart
+                      )
                         ? "bg-red-700"
                         : "bg-sky-700 hover:bg-sky-800"
                     }`}
@@ -54,7 +56,9 @@ export default function PromoItem({ promos, addToCart }) {
                 .map((item) => (
                   <button
                     className={`w-64 py-2 rounded-lg cursor-pointer ${
-                      item.inCart === true
+                      cartItem.some(
+                        (cItem) => cItem.item === item.item && cItem.inCart
+                      )
                         ? "bg-red-700"
                         : "bg-sky-700 hover:bg-sky-800"
                     }`}
@@ -75,7 +79,9 @@ export default function PromoItem({ promos, addToCart }) {
                 .map((item) => (
                   <button
                     className={`w-64 py-2 rounded-lg cursor-pointer ${
-                      item.inCart === true
+                      cartItem.some(
+                        (cItem) => cItem.item === item.item && cItem.inCart
+                      )
                         ? "bg-red-700"
                         : "bg-sky-700 hover:bg-sky-800"
                     }`}
