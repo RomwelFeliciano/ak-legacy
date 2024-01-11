@@ -90,9 +90,9 @@ export default function Home() {
     // console.log(promoIndex);
 
     const oppositeType =
-      item.itemType === "fruit" && promoIndex === promoId
+      item.itemType === "fruit" && promoIndex + 1 === promoId
         ? "protein"
-        : item.itemType === "protein" && promoIndex === promoId
+        : item.itemType === "protein" && promoIndex + 1 === promoId
         ? "fruit"
         : null;
 
