@@ -43,6 +43,7 @@ export default function PromoItem({ promos, addToCart, cartItem }) {
                     onClick={() => addToCart(item, promo.promoId)}
                   >
                     {item.item}
+                    {/* {console.log(item)} */}
                   </button>
                 ))}
             </div>
