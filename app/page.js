@@ -66,6 +66,8 @@ const promos = [
 ];
 
 export default function Home() {
+  const [promo, setPromo] = useState(promos);
+
   const [promoOne, setPromoOne] = useState([]);
   const [promoTwo, setPromoTwo] = useState([]);
 
@@ -73,44 +75,47 @@ export default function Home() {
 
   useEffect(() => {
     setCartItem([...promoOne, ...promoTwo]);
-  }, [promoOne, promoTwo]); // Update combinedArray whenever arrayOne or arrayTwo changes
+  }, [promoOne, promoTwo]); // Update combinedArray whenever promoOne or promoTwo changes
 
   function addToCart(item, promoId) {
-    if (promoId === 1) {
-      const existingIndex = promoOne.findIndex(
-        (existingItem) => existingItem.item === item.item
+    const findItemIndex = (promoArray, itemType) =>
+      promoArray.findIndex(
+        (existingItem) => existingItem.itemType === itemType
       );
 
+    const oppositeType = item.itemType === "fruit" ? "protein" : "fruit";
+
+    const handlePromo = (promoArray, setPromoArray, oppositeType) => {
+      const existingIndex = findItemIndex(promoArray, item.itemType);
+
       if (existingIndex !== -1) {
-        // Item exists, remove it from the cart
-        const updatedCart = [...promoOne];
+        const updatedCart = [...promoArray];
         updatedCart.splice(existingIndex, 1);
-        setPromoOne(updatedCart);
+        setPromoArray(updatedCart);
       } else {
-        // Item doesn't exist, add it to the cart
-        setPromoOne([...promoOne, item]);
+        const oppositeItemIndex = findItemIndex(promoArray, oppositeType);
+
+        if (oppositeItemIndex !== -1) {
+          const updatedCart = [...promoArray];
+          updatedCart.splice(oppositeItemIndex, 1);
+          setPromoArray([...updatedCart, { ...item, inCart: true }]);
+        } else {
+          setPromoArray([...promoArray, { ...item, inCart: true }]);
+        }
       }
+    };
+
+    if (promoId === 1) {
+      handlePromo(promoOne, setPromoOne, oppositeType);
+      setPromo([...promo, { ...item, inCart: true }]);
     } else if (promoId === 2) {
-      const existingIndex = promoTwo.findIndex(
-        (existingItem) => existingItem.item === item.item
-      );
-      // Do the same for promoTwo if needed
-      if (existingIndex !== -1) {
-        // Item exists, remove it from the cart
-        const updatedCart = [...promoTwo];
-        updatedCart.splice(existingIndex, 1);
-        setPromoTwo(updatedCart);
-      } else {
-        // Item doesn't exist, add it to the cart
-        setPromoTwo([...promoTwo, item]);
-      }
-      // You can implement a similar logic for promoTwo using setPromoTwo
+      handlePromo(promoTwo, setPromoTwo, oppositeType);
     }
   }
 
   // console.log(promoOne);
   // console.log(promoTwo);
-  console.log(cartItem, "asd");
+  // console.log(cartItem, "asd");
 
   return (
     <main className="w-full grid grid-cols-12 min-h-screen">
@@ -118,7 +123,7 @@ export default function Home() {
         <Promo promos={promos} addToCart={addToCart} />
       </div>
       <div className="col-span-2 bg-white p-4 text-black">
-        <Cart />
+        <Cart cartItem={cartItem} />
       </div>
     </main>
   );
