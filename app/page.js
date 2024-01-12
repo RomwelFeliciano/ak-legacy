@@ -136,6 +136,24 @@ export default function Home() {
     }
   }
 
+  function removeToCart(item, promoId) {
+    // If existing specific item in the cart
+    const cartItemIndex = cartItem.findIndex(
+      (cartItem) => cartItem.item === item.item && cartItem.promoId === promoId
+    );
+
+    console.log(cartItemIndex);
+
+    if (cartItemIndex !== -1) {
+      const updatedCart = [...cartItem];
+      updatedCart.splice(cartItemIndex, 1);
+      setCartItem(updatedCart);
+      console.log("Removed Item");
+    } else {
+      console.log("Not Removed");
+    }
+  }
+
   function removeAllToCart() {
     setCartItem([]);
   }
@@ -146,7 +164,11 @@ export default function Home() {
         <Promo promos={promos} addToCart={addToCart} cartItem={cartItem} />
       </div>
       <div className="col-span-2 bg-white p-4 text-black">
-        <Cart cartItem={cartItem} removeAllToCart={removeAllToCart} />
+        <Cart
+          cartItem={cartItem}
+          removeAllToCart={removeAllToCart}
+          removeToCart={removeToCart}
+        />
       </div>
     </main>
   );
