@@ -73,10 +73,6 @@ export default function Home() {
   function addToCart(item, promoId) {
     console.log(item);
 
-    const promo = promos.find((promo) => promo.promoId === promoId);
-
-    console.log(promo, "asd");
-
     // If existing in the cart
     const existingItemIndex = cartItem.findIndex(
       (existingItem) =>
@@ -84,10 +80,14 @@ export default function Home() {
         existingItem.promoId === promoId
     );
 
+    // If existing specific item in the cart
+    const cartItemIndex = cartItem.findIndex(
+      (cartItem) => cartItem.item === item.item && cartItem.promoId === promoId
+    );
+
     if (existingItemIndex !== -1) {
       // Item of the same type already exists in the cart for the same Promo
       const updatedCart = [...cartItem];
-      console.log(updatedCart, "UPDATED CART HERE1111");
       updatedCart.splice(existingItemIndex, 1, {
         ...item,
         inCart: true,
@@ -95,7 +95,13 @@ export default function Home() {
       });
       setCartItem(updatedCart);
       console.log("Updated Item -- SWITCH");
-      console.log(updatedCart, "UPDATED CART HERE222");
+      if (cartItemIndex !== -1) {
+        // Item already exists in the cart, remove it
+        const updatedCart = [...cartItem];
+        updatedCart.splice(existingItemIndex, 1);
+        setCartItem(updatedCart);
+        console.log("Removed Item");
+      }
     } else {
       // Item doesn't exist, add it to the cart
       const oppositeType =
@@ -111,8 +117,6 @@ export default function Home() {
           existingItem.promoId === promoId
       );
 
-      console.log("Oppposite Item Index in Cart: ", oppositeItemIndex);
-
       if (oppositeItemIndex !== -1) {
         // Item of the opposite type exists in the cart for the same Promo, replace it
         const updatedCart = [...cartItem];
@@ -123,10 +127,8 @@ export default function Home() {
         });
         setCartItem(updatedCart);
         console.log("Switched Type");
-        console.log("Oppposite Item Index in Cart1: ", oppositeItemIndex);
       } else {
         // No item of the same or opposite type exists, add the new item
-        console.log("Oppposite Item Index in Cart2: ", oppositeItemIndex);
         const newItem = { ...item, inCart: true, promoId };
         setCartItem([...cartItem, newItem]);
         console.log("Added Item");

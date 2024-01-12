@@ -6,9 +6,9 @@ export default function Cart({ cartItem, removeAllToCart }) {
       <h1>My Cart</h1>
       <div className="flex flex-col justify-between h-full">
         <ul className="flex flex-col gap-3 pt-3">
-          {cartItem.map((item) => (
+          {cartItem.map((item, index) => (
             <li
-              key={item.item}
+              key={index}
               className="flex justify-between items-center bg-sky-400 px-2 py-2 rounded-lg capitalize"
             >
               {item.item} -- {item.itemType}

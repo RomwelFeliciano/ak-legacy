@@ -34,7 +34,10 @@ export default function PromoItem({ promos, addToCart, cartItem }) {
                   <button
                     className={`w-64 py-2 rounded-lg cursor-pointer ${
                       cartItem.some(
-                        (cItem) => cItem.item === item.item && cItem.inCart
+                        (cItem) =>
+                          cItem.item === item.item &&
+                          cItem.inCart &&
+                          cItem.promoId === promo.promoId
                       )
                         ? "bg-red-700"
                         : "bg-sky-700 hover:bg-sky-800"
@@ -43,7 +46,6 @@ export default function PromoItem({ promos, addToCart, cartItem }) {
                     onClick={() => addToCart(item, promo.promoId)}
                   >
                     {item.item}
-                    {/* {console.log(item)} */}
                   </button>
                 ))}
             </div>
@@ -54,11 +56,14 @@ export default function PromoItem({ promos, addToCart, cartItem }) {
             <div className="flex items-center gap-3">
               {promo.items
                 .filter((item) => item.itemType === "protein")
-                .map((item) => (
+                .map((item, index) => (
                   <button
                     className={`w-64 py-2 rounded-lg cursor-pointer ${
                       cartItem.some(
-                        (cItem) => cItem.item === item.item && cItem.inCart
+                        (cItem) =>
+                          cItem.item === item.item &&
+                          cItem.inCart &&
+                          cItem.promoId === promo.promoId
                       )
                         ? "bg-red-700"
                         : "bg-sky-700 hover:bg-sky-800"
@@ -81,7 +86,10 @@ export default function PromoItem({ promos, addToCart, cartItem }) {
                   <button
                     className={`w-64 py-2 rounded-lg cursor-pointer ${
                       cartItem.some(
-                        (cItem) => cItem.item === item.item && cItem.inCart
+                        (cItem) =>
+                          cItem.item === item.item &&
+                          cItem.inCart &&
+                          cItem.promoId === promo.promoId
                       )
                         ? "bg-red-700"
                         : "bg-sky-700 hover:bg-sky-800"
